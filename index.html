@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Websites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #08070a;
+    --panel: #131016;
+    --panel-line: #221e28;
+    --text: #f2f0f4;
+    --text-dim: #8d8894;
+
+    --c1: #ff3d7f; /* hot pink   */
+    --c2: #29e6c9; /* cyan-teal  */
+    --c3: #a06bff; /* violet     */
+    --c4: #ffb545; /* amber      */
+    --c5: #ff5f4d; /* coral-red  */
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{ height: 100%; }
+
+  body{
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 600px 320px at 15% 0%, rgba(255,61,127,0.10), transparent 55%),
+      radial-gradient(ellipse 600px 320px at 85% 10%, rgba(41,230,201,0.08), transparent 55%),
+      var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 18px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .marquee{
+    width: 100%;
+    max-width: 440px;
+  }
+
+  .strip{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px;
+    margin-bottom: 16px;
+  }
+
+  .strip span{
+    width: 6px;
+    height: 6px;
+    border-radius: 1.5px;
+    background: var(--panel-line);
+  }
+
+  .strip span:nth-child(4n+1){ background: var(--c1); box-shadow: 0 0 6px rgba(255,61,127,0.6); }
+  .strip span:nth-child(4n+2){ background: var(--c2); box-shadow: 0 0 6px rgba(41,230,201,0.6); }
+  .strip span:nth-child(4n+3){ background: var(--c3); box-shadow: 0 0 6px rgba(160,107,255,0.6); }
+
+  h1{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 5px;
+    text-align: center;
+    margin: 0;
+    background: linear-gradient(90deg, var(--c1), var(--c3) 45%, var(--c2) 75%, var(--c4));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 18px rgba(160,107,255,0.20));
+  }
+
+  .subtitle{
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12.5px;
+    letter-spacing: 2.5px;
+    margin: 6px 0 28px;
+  }
+
+  .reel{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ticket{
+    --accent: var(--c1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 12px;
+    padding: 16px 20px 16px 24px;
+    text-decoration: none;
+    color: var(--text);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.5s ease forwards;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ticket:nth-child(5n+1){ --accent: var(--c1); }
+  .ticket:nth-child(5n+2){ --accent: var(--c2); }
+  .ticket:nth-child(5n+3){ --accent: var(--c3); }
+  .ticket:nth-child(5n+4){ --accent: var(--c4); }
+  .ticket:nth-child(5n+5){ --accent: var(--c5); }
+
+  .ticket::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent);
+    opacity: 0.55;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ticket:hover{
+    border-color: var(--accent);
+    background: #17141c;
+    transform: translateX(4px);
+    box-shadow: 0 6px 24px -10px var(--accent);
+  }
+
+  .ticket:hover::before{
+    opacity: 1;
+    box-shadow: 0 0 14px 1px var(--accent);
+  }
+
+  .ticket-number{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    opacity: 0.75;
+    min-width: 28px;
+    transition: opacity 0.2s ease;
+  }
+
+  .ticket:hover .ticket-number{
+    opacity: 1;
+  }
+
+  .ticket-left{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ticket-name{
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .ticket-arrow{
+    color: var(--panel-line);
+    font-size: 18px;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .ticket:hover .ticket-arrow{
+    color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  @keyframes rise{
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  .footer-line{
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 24px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ticket{ animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="marquee">
+
+    <div class="strip">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <h1>MOVIE&nbsp;WEBSITES</h1>
+    <p class="subtitle">LIGHTS DOWN, PICK A SCREEN</p>
+
+    <div class="reel" id="reel"></div>
+
+    <p class="footer-line">TAP A TICKET TO ENTER</p>
+
+  </div>
+
+  <script>
+    // ================================================================
+    // NOTUN LINK ADD KORTE HOLE:
+    // - "name" er ghor e website-er naam lekho
+    // - "url" er ghor e link ta paste koro
+    // Protita notun link automatic notun color pabe.
+    // ================================================================
+    const links = [
+      { name: "Plex",             url: "https://watch.plex.tv/en-GB" },
+      { name: "M4UHD",            url: "https://m4uhd.vip/" },
+      { name: "TechVyro Movies",  url: "https://techvyro-movies.onrender.com/" },
+      { name: "CineHD",           url: "https://cinehd.vc/" },
+      { name: "NightFlix",        url: "https://nightflix.vg/" },
+
+      // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+      // ★  NOTUN LINK EIKHANE — NICHE "Pvrplay" R "https://pvrplay.online/" bosao  ★
+      // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+      { name: "pvrplay",                 url: "https://pvrplay.online/" },
+
+    ];
+
+    const reel = document.getElementById("reel");
+    links
+      .filter(item => item.url)
+      .forEach((item, i) => {
+        const a = document.createElement("a");
+        a.className = "ticket";
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.style.animationDelay = (i * 0.06) + "s";
+        const num = String(i + 1).padStart(2, "0");
+        const label = item.name || "Untitled";
+        a.innerHTML = `
+          <span class="ticket-left">
+            <span class="ticket-number">${num}</span>
+            <span class="ticket-name">${label}</span>
+          </span>
+          <span class="ticket-arrow">›</span>
+        `;
+        reel.appendChild(a);
+      });
+  </script>
+
+</body>
+</html>
